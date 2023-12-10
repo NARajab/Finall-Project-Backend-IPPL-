@@ -1,5 +1,5 @@
-'use strict';
-const { Model } = require('sequelize');
+'use strict'
+const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Content extends Model {
     /**
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: {
           name: 'chapterId',
         },
-      });
+      })
     }
   }
   Content.init(
@@ -21,13 +21,13 @@ module.exports = (sequelize, DataTypes) => {
       contentTitle: DataTypes.STRING,
       contentUrl: DataTypes.STRING,
       duration: DataTypes.STRING,
-      status: DataTypes.BOOLEAN,
+      status: { type: DataTypes.BOOLEAN, defaultValue: false },
       chapterId: DataTypes.INTEGER,
     },
     {
       sequelize,
       modelName: 'Content',
     }
-  );
-  return Content;
-};
+  )
+  return Content
+}

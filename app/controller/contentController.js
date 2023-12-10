@@ -53,14 +53,13 @@ const getContentByid = async (req, res, next) => {
 
 const insertContentByLink = async (req, res, next) => {
   try {
-    const { contentTitle, contentUrl, status, videoDuration } = req.body
+    const { contentTitle, contentUrl, videoDuration } = req.body
     const { chapterId } = req.params
 
     const dataContent = await Content.create({
       chapterId: chapterId,
       contentTitle: contentTitle,
       contentUrl: contentUrl,
-      status: status,
       duration: videoDuration,
     })
 
@@ -365,6 +364,45 @@ const deleteContentByid = async (req, res, next) => {
     next(new ApiError(err.message, 500))
   }
 }
+
+const updateContentStatus = async (req, res, next) => {
+  const { chapterId, contentId } = req.params
+
+  try {
+    const chapter = await Chapter.findOne({
+      where: {
+        id: chapterId,
+      },
+    })
+    const contentData = await Content.findOne({
+      where: {
+        id: contentId,
+      },
+    })
+
+    if (contentData === null) {
+      return next(new ApiError('content data is not found!', 404))
+    } else {
+      const updateContentStatus = await Content.update(
+        {
+          status: true,
+        },
+        {
+          where: { chapterId: chapterId, id: contentId },
+        }
+      )
+      res.status(200).json({
+        status: 'Success',
+        data: {
+          updateContentStatus,
+        },
+      })
+    }
+  } catch (err) {
+    next(new ApiError(err.message, 500))
+  }
+}
+
 module.exports = {
   getContent,
   getContentByid,
@@ -372,5 +410,6 @@ module.exports = {
   insertContentByFile,
   updateContentByFile,
   updateContentByLink,
+  updateContentStatus,
   deleteContentByid,
 }

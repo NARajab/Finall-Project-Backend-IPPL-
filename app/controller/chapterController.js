@@ -1,5 +1,5 @@
 const ApiError = require('../../utils/apiError')
-const { Chapter, Course } = require('../models')
+const { Chapter, Course, Content } = require('../models')
 require('dotenv').config()
 
 const createChapter = async (req, res, next) => {
@@ -59,6 +59,31 @@ const findChapter = async (req, res, next) => {
       status: 'success',
       data: {
         chapter,
+      },
+    })
+  } catch (err) {
+    next(new ApiError(err.message, 500))
+  }
+}
+const findChapterByCourseId = async (req, res, next) => {
+  try {
+    const courseId = req.params.courseId
+
+    const chapters = await Chapter.findAll({
+      where: {
+        courseId: courseId,
+      },
+      include: { model: Content },
+    })
+
+    if (!chapters || chapters.length === 0) {
+      return next(new ApiError('No chapters found for the given CourseId'), 404)
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        chapters,
       },
     })
   } catch (err) {
@@ -131,6 +156,7 @@ module.exports = {
   createChapter,
   findAllChapter,
   findChapter,
+  findChapterByCourseId,
   updateChapter,
   deleteChapter,
 }

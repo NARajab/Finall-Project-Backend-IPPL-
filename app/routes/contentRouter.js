@@ -11,11 +11,7 @@ router.get('/:contentId', Content.getContentByid)
 
 router.delete('/deleted/:contentId', Content.deleteContentByid)
 
-router.post(
-  '/insert-bylink/:chapterId',
-  checkContentBody,
-  Content.insertContentByLink
-)
+router.post('/insert-bylink/:chapterId', Content.insertContentByLink)
 router.post(
   '/insert-byfile/:chapterId',
   upload.single('fileVideo'),
@@ -32,6 +28,11 @@ router.patch(
 router.patch(
   '/update-bylink/:chapterId/:contentId',
   Content.updateContentByLink
+)
+
+router.patch(
+  '/update-status/:chapterId/:contentId',
+  Content.updateContentStatus
 )
 
 module.exports = router

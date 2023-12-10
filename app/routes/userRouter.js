@@ -6,9 +6,6 @@ const checkRole = require('../middlewares/checkRole')
 
 router.get('/', User.getUsers)
 router.get('/get', User.getUserByEmail)
-router.get('/getData/:userId', User.getDataCourse)
-router.get('/getData/:userId/:courseId', User.getCourseById)
-router.post('/create/:id', authenticate, checkRole(['member']), User.getCourse)
 router.patch(
   '/update/:id',
   authenticate,

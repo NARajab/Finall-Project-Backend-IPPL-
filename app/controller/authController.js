@@ -243,10 +243,64 @@ const updateNewPassword = async (req, res, next) => {
   }
 }
 
+const newPassword = async (req, res, next) => {
+  try {
+    const { userId } = req.params
+    const { oldPassword, newPassword, confirmPassword } = req.body
+
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({
+        status: 'Failed',
+        message: 'Password tidak sesuai',
+      })
+    }
+
+    // Cari data pengguna berdasarkan ID
+    const user = await Auth.findOne({
+      where: {
+        userId,
+      },
+      include: ['User'],
+    })
+
+    const isOldPasswordValid = await bcrypt.compare(oldPassword, user.password)
+
+    if (!isOldPasswordValid) {
+      return res.status(401).json({
+        status: 'Gagal',
+        message: 'Password lama tidak sesuai',
+      })
+    }
+    // Hash password baru
+    const saltRounds = 10
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds)
+
+    // Update password di database Auth
+    await Auth.update(
+      {
+        password: hashedPassword,
+      },
+      {
+        where: {
+          userId,
+        },
+      }
+    )
+
+    res.status(200).json({
+      status: 'Success',
+      message: 'Update Password successful',
+    })
+  } catch (err) {
+    next(new ApiError(err.message, 500))
+  }
+}
+
 module.exports = {
   register,
   login,
   authenticate,
   updateNewPassword,
+  newPassword,
   authenticateAdmin,
 }

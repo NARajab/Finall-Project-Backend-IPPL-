@@ -17,5 +17,6 @@ router.post('/new-otp', Otp.sendOtp)
 router.post('/forgot-password', Otp.sendOtp)
 router.post('/forgot-password/:userId', Otp.verifyOTP)
 router.patch('/reset-password/:userId', Auth.updateNewPassword)
+router.patch('/update-password/:userId', Auth.newPassword)
 
 module.exports = router

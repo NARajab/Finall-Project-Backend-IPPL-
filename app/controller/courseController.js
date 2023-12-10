@@ -178,7 +178,16 @@ const getOneCourse = async (req, res, next) => {
 }
 
 const createCourse = async (req, res, next) => {
-  const courseBody = req.body
+  const {
+    chapterTitle,
+    courseCode,
+    categoryId,
+    courseLevel,
+    courseName,
+    rating,
+    description,
+    objectiveCourse,
+  } = req.body
   const file = req.file
   let image
 
@@ -194,14 +203,25 @@ const createCourse = async (req, res, next) => {
     }
 
     const newCourse = await Course.create({
-      ...courseBody,
+      courseName,
+      categoryId,
+      description,
+      objectiveCourse,
+      courseCode,
+      courseLevel,
+      rating,
       userId: req.user.id,
       image,
     })
 
+    await Chapter.create({
+      chapterTitle,
+      courseId: newCourse.id,
+    })
+
     res.status(201).json({
       status: 'success',
-      data: newCourse,
+      data: newCourse.id,
     })
   } catch (err) {
     if (err.message.split(':')[0] == 'notNull Violation') {

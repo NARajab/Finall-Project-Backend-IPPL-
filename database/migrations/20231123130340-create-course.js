@@ -41,7 +41,6 @@ module.exports = {
       },
       courseType: {
         type: Sequelize.ENUM(['Free', 'Premium']),
-        allowNull: false,
       },
       courseLevel: {
         type: Sequelize.ENUM(['Beginner', 'Intermediate', 'Advanced']),
@@ -52,6 +51,7 @@ module.exports = {
       },
       aboutCourse: {
         type: Sequelize.TEXT,
+        allowNull: true,
       },
       intendedFor: {
         type: Sequelize.TEXT,
@@ -61,7 +61,7 @@ module.exports = {
       },
       isPromo: {
         type: Sequelize.BOOLEAN,
-        allowNull: false,
+        allowNull: true,
         defaultValue: false,
       },
       createdAt: {
