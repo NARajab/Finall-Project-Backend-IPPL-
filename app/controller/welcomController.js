@@ -47,11 +47,11 @@ const welcome = (req, res) => {
           <strong>Message:</strong>
           <p>Selamat datang di API Aplikasi Belajar</p>
           <p>Untuk menggunakan API silahkan klik tombol dibawah:</p>
-          <a href="https://backend-production-f9e7.up.railway.app/api-docs" class="button">Klik disini</a>
+          <a href="https://finall-project-backend-ippl-production.up.railway.app/api-docs" class="button">Klik disini</a>
         </div>
       </body>
     </html>
-  `);
-};
+  `)
+}
 
-module.exports = { welcome };
+module.exports = { welcome }
