@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-require('dotenv').config()
+
 const {
   DB_USERNAME = '',
   DB_PASSWORD = '',
@@ -9,7 +9,7 @@ const {
 } = process.env
 
 const sequelize = new Sequelize(
-  `${DB_NAME}_${process.env.NODE_ENV}`,
+  `${DB_NAME}_development`,
   DB_USERNAME,
   DB_PASSWORD,
   {
