@@ -47,6 +47,7 @@ const getAllCoursesData = async (req, res, next) => {
         },
       ],
     })
+    //rajab
 
     const formattedCourses = courses.map((courseUser) => {
       const course = courseUser.Course
